@@ -38,10 +38,15 @@ try {
 Write-Host "Connected to Photoshop $($ps.Version)"
 Write-Host "Running: $fullPath"
 
+# Copy into a plain object[] element by element: a cast would keep PowerShell's PSObject
+# wrappers, which COM rejects as an unsupported Variant type.
+$jsxArgs = New-Object object[] $Arguments.Count
+for ($i = 0; $i -lt $Arguments.Count; $i++) { $jsxArgs[$i] = [string]$Arguments[$i] }
+
 try {
     # ExecutionMode 1 = psNeverShowDebugger, so script errors come back as COM exceptions
     # instead of opening the ExtendScript debugger.
-    $result = $ps.DoJavaScriptFile($fullPath, [object[]]$Arguments, 1)
+    $result = $ps.DoJavaScriptFile($fullPath, $jsxArgs, 1)
 } catch {
     $msg = if ($_.Exception.InnerException) { $_.Exception.InnerException.Message } else { $_.Exception.Message }
     Write-Error "JSX execution failed: $msg"
