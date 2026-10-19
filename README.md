@@ -130,7 +130,7 @@ OK: created 'Red Square Test' (1000x1000) with red square
 
 The commit failed because Git had no author name or email set up on this machine (`Author identity unknown`). Claude stopped and asked which identity to use instead of making one up.
 
-> Set my git name to "Yifan Wang" and email to "crodie0315@gmail.com" globally, then retry the commit.
+> Set my git name to "Yifan Wang" and email to "[my email]" globally, then retry the commit.
 
 Claude set the global Git identity and the commit went through (`401efb7`).
 
